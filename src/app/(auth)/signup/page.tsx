@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { AppleIcon, FacebookIcon, GoogleIcon } from "~/components/icons";
@@ -16,6 +17,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { authClient } from "~/lib/auth-client";
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -35,14 +37,44 @@ export default function SignupPage() {
     },
   });
 
+  const router = useRouter();
+
   const onSubmit = async (data: SignupFormValues) => {
     // TODO: Implement email/password signup
     console.log("Email signup:", data);
+
+    const { error } = await authClient.signUp.email({
+      email: data.email,
+      password: data.password,
+      name: data.name,
+    });
+
+    if (error) {
+      form.setError("root", { message: error.message });
+      console.error(error);
+    } else {
+      console.log("Signup successful");
+
+      router.push("/");
+    }
   };
 
-  const handleSocialSignup = (provider: string) => {
+  const handleSocialSignup = async (provider: string) => {
     // TODO: Implement social signup
     console.log(`${provider} signup`);
+
+    const { error } = await authClient.signIn.social({
+      provider,
+    });
+
+    if (error) {
+      form.setError("root", { message: error.message });
+      console.error(error);
+    } else {
+      console.log("Signup successful");
+
+      router.push("/");
+    }
   };
 
   return (
@@ -56,6 +88,12 @@ export default function SignupPage() {
             Sign up to get started
           </p>
         </div>
+
+        {form.formState.errors.root && (
+          <div className="text-destructive text-sm">
+            {form.formState.errors.root.message}
+          </div>
+        )}
 
         <div className="space-y-4">
           {/* Social Signup Buttons */}

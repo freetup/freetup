@@ -1,11 +1,32 @@
+"use client";
+
 import Link from "next/link";
+import { useSession } from "~/lib/auth-client";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
+import { Skeleton } from "./ui/skeleton";
 
 export function AppHeader() {
+  const { data: session } = useSession();
+
   return (
     <header className="flex justify-between items-center py-3 px-4">
       <h1>Freetup</h1>
 
+      <AccountMenu />
+    </header>
+  );
+}
+
+function AccountMenu() {
+  const { data: session, isPending } = useSession();
+
+  if (isPending) {
+    return <Skeleton className="w-10 h-10 rounded-full" />;
+  }
+
+  if (!session) {
+    return (
       <div className="flex gap-2">
         <Button variant="secondary" asChild>
           <Link href="/login">Login</Link>
@@ -14,6 +35,15 @@ export function AppHeader() {
           <Link href="/signup">Signup</Link>
         </Button>
       </div>
-    </header>
+    );
+  }
+
+  return (
+    <Button variant="secondary" asChild>
+      <Avatar>
+        {session.user.image && <AvatarImage src={session.user.image} />}
+        <AvatarFallback>{session.user.name.charAt(0)}</AvatarFallback>
+      </Avatar>
+    </Button>
   );
 }

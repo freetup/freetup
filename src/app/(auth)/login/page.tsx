@@ -89,24 +89,6 @@ export default function LoginPage() {
               <GoogleIcon className="size-5" />
               Continue with Google
             </Button>
-
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => handleSocialLogin("apple")}
-            >
-              <AppleIcon className="size-5" />
-              Continue with Apple
-            </Button>
-
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => handleSocialLogin("facebook")}
-            >
-              <FacebookIcon className="size-5" />
-              Continue with Facebook
-            </Button>
           </div>
 
           {/* Divider */}

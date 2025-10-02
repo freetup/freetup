@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { AppleIcon, FacebookIcon, GoogleIcon } from "~/components/icons";
+import { GoogleIcon } from "~/components/icons";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -105,24 +105,6 @@ export default function SignupPage() {
             >
               <GoogleIcon className="size-5" />
               Continue with Google
-            </Button>
-
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => handleSocialSignup("apple")}
-            >
-              <AppleIcon className="size-5" />
-              Continue with Apple
-            </Button>
-
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => handleSocialSignup("facebook")}
-            >
-              <FacebookIcon className="size-5" />
-              Continue with Facebook
             </Button>
           </div>
 

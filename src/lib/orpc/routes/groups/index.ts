@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import z from "zod";
 import { organisation } from "~/db/schema";
-import { base } from "../context";
+import { base } from "~/lib/orpc/context";
 
 export const get = base
   .input(z.object({ slug: z.string() }))
@@ -18,3 +18,6 @@ export const list = base.handler(async ({ context }) => {
 
   return groups;
 });
+
+export * as events from "./events";
+export * as members from "./members";

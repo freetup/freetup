@@ -28,6 +28,7 @@
     "drizzle-orm": "^0.44.5",
     "lucide-react": "^0.544.0",
     "next": "15.5.4",
+    "pluralize": "^8.0.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.63.0",
@@ -35,6 +36,7 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
+    "@types/pluralize": "^0.0.33",
     "@biomejs/biome": "2.2.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

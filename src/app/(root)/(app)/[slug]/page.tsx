@@ -2,6 +2,7 @@
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import pluralize from "pluralize";
 import { use } from "react";
 import { Button } from "~/components/ui/button";
 import { orpc } from "~/lib/orpc/react-query";
@@ -22,6 +23,24 @@ export default function GroupPage({ params }: PageProps) {
       },
     }),
   );
+
+  const { data: members = [] } = useSuspenseQuery(
+    orpc.groups.members.list.queryOptions({
+      input: {
+        slug,
+      },
+    }),
+  );
+
+  const { data: events = [] } = useSuspenseQuery(
+    orpc.groups.events.list.queryOptions({
+      input: {
+        slug,
+      },
+    }),
+  );
+
+  console.log(members);
 
   if (!group) {
     return (
@@ -177,7 +196,9 @@ export default function GroupPage({ params }: PageProps) {
                       d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
                     />
                   </svg>
-                  <span className="text-muted-foreground">0 members</span>
+                  <span className="text-muted-foreground">
+                    {pluralize("member", members.length, true)}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <svg
@@ -201,30 +222,65 @@ export default function GroupPage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* Organizers */}
+            {/* Members */}
             <div className="rounded-lg border bg-card p-6">
-              <h3 className="mb-4 font-semibold">Organizers</h3>
-              <div className="flex flex-col items-center justify-center py-8 text-center">
-                <div className="flex size-12 items-center justify-center rounded-full bg-muted">
-                  <svg
-                    className="size-6 text-muted-foreground"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <title>User</title>
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-                  </svg>
+              <h3 className="mb-4 font-semibold">Members ({members.length})</h3>
+              {members.length > 0 ? (
+                <div className="space-y-3">
+                  {members.slice(0, 5).map((member) => (
+                    <div key={member.id} className="flex items-center gap-3">
+                      {member.user.image ? (
+                        <img
+                          src={member.user.image}
+                          alt={member.user.name}
+                          className="size-10 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex size-10 items-center justify-center rounded-full bg-primary/10">
+                          <span className="text-sm font-semibold text-primary">
+                            {member.user.name.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <p className="truncate text-sm font-medium">
+                          {member.user.name}
+                        </p>
+                        <p className="truncate text-xs text-muted-foreground">
+                          {member.role}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                  {members.length > 5 && (
+                    <Button variant="ghost" size="sm" className="w-full">
+                      View all {members.length} members
+                    </Button>
+                  )}
                 </div>
-                <p className="mt-3 text-sm text-muted-foreground">
-                  No organizers listed
-                </p>
-              </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-8 text-center">
+                  <div className="flex size-12 items-center justify-center rounded-full bg-muted">
+                    <svg
+                      className="size-6 text-muted-foreground"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <title>User</title>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
+                    </svg>
+                  </div>
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    No members yet
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

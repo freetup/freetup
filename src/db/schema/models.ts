@@ -1,3 +1,4 @@
+import { createId } from "@paralleldrive/cuid2";
 import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
@@ -103,7 +104,9 @@ export const invitation = pgTable("invitation", {
 });
 
 export const event = pgTable("event", {
-  id: text("id").primaryKey(),
+  id: text()
+    .$defaultFn(() => createId())
+    .primaryKey(),
   organisationId: text("organisation_id")
     .notNull()
     .references(() => organisation.id, { onDelete: "cascade" }),
@@ -114,4 +117,14 @@ export const event = pgTable("event", {
   endsAt: timestamp("ends_at").notNull(),
   location: text("location"),
   status: text("status").default("draft").notNull(),
+});
+
+export const attendees = pgTable("event_attendee", {
+  id: text("id").primaryKey(),
+  eventId: text("event_id")
+    .notNull()
+    .references(() => event.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
 });

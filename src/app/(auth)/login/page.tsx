@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { AppleIcon, FacebookIcon, GoogleIcon } from "~/components/icons";
+import { GoogleIcon } from "~/components/icons";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -34,9 +34,6 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data: LoginFormValues) => {
-    // TODO: Implement email/password login
-    console.log("Email login:", data);
-
     const { error } = await authClient.signIn.email({
       email: data.email,
       password: data.password,
@@ -51,7 +48,6 @@ export default function LoginPage() {
   };
 
   const handleSocialLogin = async (provider: string) => {
-    // TODO: Implement social login
     const { error } = await authClient.signIn.social({
       provider,
     });

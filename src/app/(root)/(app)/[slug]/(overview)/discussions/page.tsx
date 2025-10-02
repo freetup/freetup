@@ -1,6 +1,7 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 import Link from "next/link";
 import { use } from "react";
 import { Button } from "~/components/ui/button";
@@ -66,7 +67,7 @@ export default function GroupDiscussionsPage({ params }: PageProps) {
                       <span>{discussion.author.name}</span>
                       <span>•</span>
                       <span>
-                        {new Date(discussion.createdAt).toLocaleDateString()}
+                        {format(new Date(discussion.createdAt), "PP")}
                       </span>
                     </div>
                     {discussion.preview && (
@@ -99,9 +100,7 @@ export default function GroupDiscussionsPage({ params }: PageProps) {
                           <span>•</span>
                           <span>
                             Last reply{" "}
-                            {new Date(
-                              discussion.lastReplyAt,
-                            ).toLocaleDateString()}
+                            {format(new Date(discussion.lastReplyAt), "PP")}
                           </span>
                         </>
                       )}

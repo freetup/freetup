@@ -1,6 +1,7 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 import pluralize from "pluralize";
 import { use, useState } from "react";
 import { Input } from "~/components/ui/input";
@@ -125,7 +126,7 @@ export default function GroupMembersPage({ params }: PageProps) {
                 <div className="flex-1 min-w-0">
                   <h4 className="truncate font-semibold">{member.user.name}</h4>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Joined {new Date(member.createdAt).toLocaleDateString()}
+                    Joined {format(new Date(member.createdAt), "PP")}
                   </p>
                 </div>
               </div>

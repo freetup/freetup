@@ -1,6 +1,14 @@
 "use client";
 
+import {
+  IconArrowLeft,
+  IconArrowRight,
+  IconCalendar,
+  IconMapPin,
+} from "@tabler/icons-react";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { format, isFuture, isPast } from "date-fns";
+import { ClockIcon } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
 import { Button } from "~/components/ui/button";
@@ -32,12 +40,8 @@ export default function GroupEventsPage({ params }: PageProps) {
     }),
   );
 
-  const upcomingEvents = events.filter(
-    (event) => new Date(event.startsAt) >= new Date(),
-  );
-  const pastEvents = events.filter(
-    (event) => new Date(event.startsAt) < new Date(),
-  );
+  const upcomingEvents = events.filter((event) => isFuture(event.startsAt));
+  const pastEvents = events.filter((event) => isPast(event.startsAt));
 
   return (
     <>
@@ -69,12 +73,10 @@ export default function GroupEventsPage({ params }: PageProps) {
                   {/* Date Badge */}
                   <div className="flex flex-col items-center justify-center rounded-lg bg-muted px-4 py-3 text-center">
                     <span className="text-sm font-medium uppercase text-muted-foreground">
-                      {new Date(event.startsAt).toLocaleDateString("en-US", {
-                        month: "short",
-                      })}
+                      {format(event.startsAt, "MMM")}
                     </span>
                     <span className="text-2xl font-bold">
-                      {new Date(event.startsAt).getDate()}
+                      {format(event.startsAt, "d")}
                     </span>
                   </div>
 
@@ -90,58 +92,18 @@ export default function GroupEventsPage({ params }: PageProps) {
                     )}
                     <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
-                        <svg
-                          className="size-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <title>Time</title>
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                        <span>
-                          {new Date(event.startsAt).toLocaleTimeString(
-                            "en-US",
-                            {
-                              hour: "numeric",
-                              minute: "2-digit",
-                            },
-                          )}
-                        </span>
+                        <ClockIcon className="size-4" />
+                        <span>{format(event.startsAt, "h:mm a")}</span>
                       </div>
                       {event.location && (
                         <div className="flex items-center gap-1">
-                          <svg
-                            className="size-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <title>Location</title>
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                            />
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                            />
-                          </svg>
+                          <IconMapPin className="size-4" />
                           <span>{event.location}</span>
                         </div>
                       )}
                       <div
                         className={cn(
-                          "flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium",
+                          "flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium capitalize",
                           event.status === "published" &&
                             "bg-green-500/10 text-green-600 dark:text-green-400",
                           event.status === "draft" &&
@@ -157,20 +119,7 @@ export default function GroupEventsPage({ params }: PageProps) {
 
                   {/* Arrow */}
                   <div className="flex items-center">
-                    <svg
-                      className="size-5 text-muted-foreground group-hover:text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <title>View Event</title>
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
+                    <IconArrowRight className="size-5 text-muted-foreground group-hover:text-primary" />
                   </div>
                 </div>
               </Link>
@@ -178,20 +127,7 @@ export default function GroupEventsPage({ params }: PageProps) {
           </div>
         ) : (
           <div className="rounded-lg border bg-card p-12 text-center">
-            <svg
-              className="mx-auto size-12 text-muted-foreground"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <title>Calendar</title>
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
+            <IconCalendar className="mx-auto size-12 text-muted-foreground" />
             <h3 className="mt-4 text-lg font-semibold">No upcoming events</h3>
             <p className="mt-2 text-sm text-muted-foreground">
               Check back soon for new events
@@ -219,12 +155,10 @@ export default function GroupEventsPage({ params }: PageProps) {
                   {/* Date Badge */}
                   <div className="flex flex-col items-center justify-center rounded-lg bg-muted px-4 py-3 text-center">
                     <span className="text-sm font-medium uppercase text-muted-foreground">
-                      {new Date(event.startsAt).toLocaleDateString("en-US", {
-                        month: "short",
-                      })}
+                      {format(event.startsAt, "MMM")}
                     </span>
                     <span className="text-2xl font-bold">
-                      {new Date(event.startsAt).getDate()}
+                      {format(event.startsAt, "d")}
                     </span>
                   </div>
 
@@ -240,52 +174,12 @@ export default function GroupEventsPage({ params }: PageProps) {
                     )}
                     <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
-                        <svg
-                          className="size-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <title>Time</title>
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                        <span>
-                          {new Date(event.startsAt).toLocaleTimeString(
-                            "en-US",
-                            {
-                              hour: "numeric",
-                              minute: "2-digit",
-                            },
-                          )}
-                        </span>
+                        <ClockIcon className="size-4" />
+                        <span>{format(event.startsAt, "h:mm a")}</span>
                       </div>
                       {event.location && (
                         <div className="flex items-center gap-1">
-                          <svg
-                            className="size-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <title>Location</title>
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                            />
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                            />
-                          </svg>
+                          <IconMapPin className="size-4" />
                           <span>{event.location}</span>
                         </div>
                       )}
@@ -294,20 +188,7 @@ export default function GroupEventsPage({ params }: PageProps) {
 
                   {/* Arrow */}
                   <div className="flex items-center">
-                    <svg
-                      className="size-5 text-muted-foreground group-hover:text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <title>View Event</title>
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
+                    <IconArrowLeft className="size-5 text-muted-foreground group-hover:text-primary" />
                   </div>
                 </div>
               </Link>

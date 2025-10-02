@@ -1,6 +1,7 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { differenceInHours, format, isFuture, isPast } from "date-fns";
 import Link from "next/link";
 import { use } from "react";
 import { Button } from "~/components/ui/button";
@@ -54,8 +55,8 @@ export default function EventDetailsPage({ params }: PageProps) {
     );
   }
 
-  const isUpcoming = new Date(event.startsAt) >= new Date();
-  const isPast = new Date(event.startsAt) < new Date();
+  const isUpcoming = isFuture(new Date(event.startsAt));
+  const isPastEvent = isPast(new Date(event.startsAt));
 
   return (
     <div className="min-h-screen bg-background">
@@ -86,12 +87,10 @@ export default function EventDetailsPage({ params }: PageProps) {
               {/* Date Badge */}
               <div className="flex flex-col items-center justify-center rounded-lg border bg-muted px-6 py-4 text-center">
                 <span className="text-sm font-medium uppercase text-muted-foreground">
-                  {new Date(event.startsAt).toLocaleDateString("en-US", {
-                    month: "short",
-                  })}
+                  {format(new Date(event.startsAt), "MMM")}
                 </span>
                 <span className="text-4xl font-bold">
-                  {new Date(event.startsAt).getDate()}
+                  {format(new Date(event.startsAt), "d")}
                 </span>
               </div>
 
@@ -131,17 +130,8 @@ export default function EventDetailsPage({ params }: PageProps) {
                       />
                     </svg>
                     <span>
-                      {new Date(event.startsAt).toLocaleDateString("en-US", {
-                        weekday: "long",
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}{" "}
-                      at{" "}
-                      {new Date(event.startsAt).toLocaleTimeString("en-US", {
-                        hour: "numeric",
-                        minute: "2-digit",
-                      })}
+                      {format(new Date(event.startsAt), "EEEE, MMMM d, yyyy")}{" "}
+                      at {format(new Date(event.startsAt), "h:mm a")}
                     </span>
                   </div>
                   {event.location && (
@@ -180,7 +170,7 @@ export default function EventDetailsPage({ params }: PageProps) {
                       </Button>
                     </>
                   )}
-                  {isPast && (
+                  {isPastEvent && (
                     <div className="rounded-lg bg-muted px-4 py-2 text-sm font-medium text-muted-foreground">
                       This event has ended
                     </div>
@@ -329,10 +319,9 @@ export default function EventDetailsPage({ params }: PageProps) {
                 <div>
                   <p className="font-medium">Duration</p>
                   <p className="text-muted-foreground">
-                    {Math.round(
-                      (new Date(event.endsAt).getTime() -
-                        new Date(event.startsAt).getTime()) /
-                        (1000 * 60 * 60),
+                    {differenceInHours(
+                      new Date(event.endsAt),
+                      new Date(event.startsAt),
                     )}{" "}
                     hours
                   </p>
@@ -340,13 +329,13 @@ export default function EventDetailsPage({ params }: PageProps) {
                 <div>
                   <p className="font-medium">Starts</p>
                   <p className="text-muted-foreground">
-                    {new Date(event.startsAt).toLocaleString()}
+                    {format(new Date(event.startsAt), "PPp")}
                   </p>
                 </div>
                 <div>
                   <p className="font-medium">Ends</p>
                   <p className="text-muted-foreground">
-                    {new Date(event.endsAt).toLocaleString()}
+                    {format(new Date(event.endsAt), "PPp")}
                   </p>
                 </div>
               </div>

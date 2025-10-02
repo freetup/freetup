@@ -1,6 +1,8 @@
 "use client";
 
+import { IconCalendar } from "@tabler/icons-react";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 import Link from "next/link";
 import { use } from "react";
 import { Button } from "~/components/ui/button";
@@ -88,7 +90,8 @@ export default function GroupPage({ params }: PageProps) {
           {events.length > 0 ? (
             <div className="grid gap-4 sm:grid-cols-2">
               {events.map((event) => (
-                <div
+                <Link
+                  href={`/${slug}/events/${event.id}`}
                   key={event.id}
                   className="overflow-hidden rounded-lg border bg-card transition-colors hover:border-primary"
                 >
@@ -97,28 +100,16 @@ export default function GroupPage({ params }: PageProps) {
                   <div className="p-4">
                     <h3 className="font-semibold">{event.name}</h3>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      {new Date(event.startsAt).toLocaleDateString()}
+                      {format(new Date(event.startsAt), "PP")}
                     </p>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           ) : (
             <div className="rounded-lg border bg-card p-12 text-center">
-              <svg
-                className="mx-auto size-12 text-muted-foreground"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <title>Calendar</title>
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
+              <IconCalendar className="mx-auto size-12 text-muted-foreground" />
+
               <h3 className="mt-4 font-semibold">No upcoming events</h3>
               <p className="mt-2 text-sm text-muted-foreground">
                 Check back soon for new events

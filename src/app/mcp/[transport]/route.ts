@@ -15,12 +15,14 @@ const handler = async (
   const session = await auth.api.getMcpSession({
     headers: req.headers,
   });
+
   if (!session) {
     //this is important and you must return 401
     return new Response(null, {
       status: 401,
     });
   }
+
   return createMcpHandler(
     (server) => {
       server.tool(

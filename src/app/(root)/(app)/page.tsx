@@ -10,10 +10,14 @@ import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { ClockIcon } from "lucide-react";
 import Link from "next/link";
+import { useEffect } from "react";
 import { Button } from "~/components/ui/button";
+import { authClient, useSession } from "~/lib/auth-client";
 import { client } from "~/lib/orpc";
 
 export default function Home() {
+  const { data: session, isPending } = useSession();
+
   const { data: groups, isLoading: isLoadingGroups } = useQuery({
     queryKey: ["groups"],
     queryFn: async () => {
@@ -27,6 +31,12 @@ export default function Home() {
       return client.events.upcoming({ limit: 6 });
     },
   });
+
+  useEffect(() => {
+    if (!isPending && !session) {
+      void authClient.oneTap();
+    }
+  }, [session, isPending]);
 
   return (
     <div className="mx-auto min-h-screen max-w-7xl px-4 py-16">

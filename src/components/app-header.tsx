@@ -11,7 +11,9 @@ export function AppHeader() {
 
   return (
     <header className="flex justify-between items-center py-3 px-4">
-      <h1>Freetup</h1>
+      <Link href="/">
+        <h1>Freetup</h1>
+      </Link>
 
       <AccountMenu />
     </header>
@@ -39,11 +41,17 @@ function AccountMenu() {
   }
 
   return (
-    <Button variant="secondary" asChild>
-      <Avatar>
-        {session.user.image && <AvatarImage src={session.user.image} />}
-        <AvatarFallback>{session.user.name.charAt(0)}</AvatarFallback>
-      </Avatar>
-    </Button>
+    <div className="flex gap-2">
+      <Button variant="outline" asChild>
+        <Link href="/start">Start a new group</Link>
+      </Button>
+
+      <Button variant="secondary" asChild>
+        <Avatar>
+          {session.user.image && <AvatarImage src={session.user.image} />}
+          <AvatarFallback>{session.user.name.charAt(0)}</AvatarFallback>
+        </Avatar>
+      </Button>
+    </div>
   );
 }

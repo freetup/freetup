@@ -1,5 +1,11 @@
 {
-  "cSpell.words": ["neondatabase", "orpc", "tabler"],
+  "cSpell.words": [
+    "Freetup",
+    "neondatabase",
+    "organisation",
+    "orpc",
+    "tabler"
+],
   "editor.codeActionsOnSave": {
     "source.fixAll.biome": "explicit",
     "source.organizeImports.biome": "explicit"

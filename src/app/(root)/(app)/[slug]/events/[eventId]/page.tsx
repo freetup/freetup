@@ -1,7 +1,9 @@
 "use client";
 
+import { IconMapPin, IconShare, IconUsersGroup } from "@tabler/icons-react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { differenceInHours, format, isFuture, isPast } from "date-fns";
+import { ClockIcon } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
 import { Button } from "~/components/ui/button";
@@ -115,20 +117,7 @@ export default function EventDetailsPage({ params }: PageProps) {
 
                 <div className="mb-4 flex flex-wrap items-center gap-4 text-muted-foreground">
                   <div className="flex items-center gap-2">
-                    <svg
-                      className="size-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <title>Time</title>
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
+                    <ClockIcon className="size-5" />
                     <span>
                       {format(new Date(event.startsAt), "EEEE, MMMM d, yyyy")}{" "}
                       at {format(new Date(event.startsAt), "h:mm a")}
@@ -136,26 +125,7 @@ export default function EventDetailsPage({ params }: PageProps) {
                   </div>
                   {event.location && (
                     <div className="flex items-center gap-2">
-                      <svg
-                        className="size-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <title>Location</title>
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
-                      </svg>
+                      <IconMapPin className="size-5" />
                       <span>{event.location}</span>
                     </div>
                   )}
@@ -176,20 +146,7 @@ export default function EventDetailsPage({ params }: PageProps) {
                     </div>
                   )}
                   <Button variant="outline" size="icon">
-                    <svg
-                      className="size-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <title>Share</title>
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-                      />
-                    </svg>
+                    <IconShare className="size-4" />
                   </Button>
                 </div>
               </div>
@@ -258,20 +215,7 @@ export default function EventDetailsPage({ params }: PageProps) {
                 </div>
               ) : (
                 <div className="rounded-lg border bg-card p-12 text-center">
-                  <svg
-                    className="mx-auto size-12 text-muted-foreground"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <title>No Attendees</title>
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                    />
-                  </svg>
+                  <IconUsersGroup className="mx-auto size-12 text-muted-foreground" />
                   <h3 className="mt-4 text-lg font-semibold">
                     No attendees yet
                   </h3>
@@ -347,20 +291,7 @@ export default function EventDetailsPage({ params }: PageProps) {
                 <h3 className="mb-4 text-lg font-semibold">Location</h3>
                 <div className="aspect-video w-full rounded-lg bg-muted flex items-center justify-center">
                   <div className="text-center">
-                    <svg
-                      className="mx-auto size-8 text-muted-foreground"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <title>Map</title>
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
-                      />
-                    </svg>
+                    <IconMapPin className="mx-auto size-8 text-muted-foreground" />
                     <p className="mt-2 text-sm text-muted-foreground">
                       Map view
                     </p>

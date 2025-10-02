@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { admin, organization } from "better-auth/plugins";
+import { admin, mcp, organization } from "better-auth/plugins";
 import { db } from "~/db";
 import { env } from "~/env";
 
@@ -19,6 +19,9 @@ export const auth = betterAuth({
   },
   plugins: [
     admin(),
+    mcp({
+      loginPage: "/login",
+    }),
     organization({
       schema: {
         organization: {

@@ -1,5 +1,6 @@
 "use client";
 
+import { IconArrowRight, IconMessage } from "@tabler/icons-react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import Link from "next/link";
@@ -79,20 +80,7 @@ export default function GroupDiscussionsPage({ params }: PageProps) {
                     {/* Stats */}
                     <div className="mt-3 flex items-center gap-4 text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
-                        <svg
-                          className="size-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <title>Comments</title>
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                          />
-                        </svg>
+                        <IconMessage className="size-4" />
                         <span>{discussion.replyCount} replies</span>
                       </div>
                       {discussion.lastReplyAt && (
@@ -109,20 +97,7 @@ export default function GroupDiscussionsPage({ params }: PageProps) {
 
                   {/* Arrow */}
                   <div className="flex items-center">
-                    <svg
-                      className="size-5 text-muted-foreground group-hover:text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <title>View Discussion</title>
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
+                    <IconArrowRight className="size-5 text-muted-foreground group-hover:text-primary" />
                   </div>
                 </div>
               </div>
@@ -131,20 +106,7 @@ export default function GroupDiscussionsPage({ params }: PageProps) {
         </div>
       ) : (
         <div className="rounded-lg border bg-card p-12 text-center">
-          <svg
-            className="mx-auto size-12 text-muted-foreground"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <title>No Discussions</title>
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-            />
-          </svg>
+          <IconMessage className="mx-auto size-12 text-muted-foreground" />
           <h3 className="mt-4 text-lg font-semibold">No discussions yet</h3>
           <p className="mt-2 text-sm text-muted-foreground">
             Start a conversation with other members

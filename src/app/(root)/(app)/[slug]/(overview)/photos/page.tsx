@@ -1,5 +1,6 @@
 "use client";
 
+import { IconPhoto, IconX } from "@tabler/icons-react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { use, useState } from "react";
 import { Button } from "~/components/ui/button";
@@ -64,20 +65,7 @@ export default function GroupPhotosPage({ params }: PageProps) {
         </div>
       ) : (
         <div className="rounded-lg border bg-card p-12 text-center">
-          <svg
-            className="mx-auto size-12 text-muted-foreground"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <title>No Photos</title>
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-            />
-          </svg>
+          <IconPhoto className="mx-auto size-12 text-muted-foreground" />
           <h3 className="mt-4 text-lg font-semibold">No photos yet</h3>
           <p className="mt-2 text-sm text-muted-foreground">
             Be the first to share a photo from a group event
@@ -94,20 +82,7 @@ export default function GroupPhotosPage({ params }: PageProps) {
             onClick={() => setSelectedPhoto(null)}
             className="absolute right-4 top-4 text-white hover:text-gray-300"
           >
-            <svg
-              className="size-8"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <title>Close</title>
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+            <IconX className="size-8" />
           </button>
 
           <img

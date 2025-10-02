@@ -9,6 +9,7 @@ export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
+  trustedOrigins: [env.PRODUCTION_URL, env.VERCEL_URL],
   emailAndPassword: {
     enabled: true,
   },

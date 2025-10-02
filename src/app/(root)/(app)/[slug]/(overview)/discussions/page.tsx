@@ -4,7 +4,6 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { use } from "react";
 import { Button } from "~/components/ui/button";
-import { orpc } from "~/lib/orpc/react-query";
 
 interface PageProps {
   params: Promise<{
@@ -46,7 +45,7 @@ export default function GroupDiscussionsPage({ params }: PageProps) {
           {discussions.map((discussion: any) => (
             <Link
               key={discussion.id}
-              href={`/${slug}/discussions/${discussion.id}`}
+              href={`/${slug}/discussions`}
               className="block"
             >
               <div className="group rounded-lg border bg-card p-6 transition-colors hover:border-primary">

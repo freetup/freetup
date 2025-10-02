@@ -50,6 +50,7 @@ export default function LoginPage() {
   const handleSocialLogin = async (provider: string) => {
     const { error } = await authClient.signIn.social({
       provider,
+      callbackURL: `/`,
     });
 
     if (error) {

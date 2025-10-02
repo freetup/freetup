@@ -6,10 +6,7 @@ export const env = createEnv({
     DATABASE_URL: z.string(),
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
-    PRODUCTION_URL: z.string().default("https://freetup.vercel.app"),
-    VERCEL_URL: z
-      .string()
-      .transform((val) => (val ? `https://${val}` : "http://localhost:3000")),
+    PRODUCTION_URL: z.string().optional(),
   },
   client: {},
   runtimeEnv: {
@@ -17,6 +14,5 @@ export const env = createEnv({
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     PRODUCTION_URL: process.env.PRODUCTION_URL,
-    VERCEL_URL: process.env.VERCEL_URL,
   },
 });

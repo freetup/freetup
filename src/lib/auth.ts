@@ -4,12 +4,18 @@ import { admin, mcp, oAuthProxy, organization } from "better-auth/plugins";
 import { db } from "~/db";
 import { env } from "~/env";
 
+const baseURL = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
+
+const productionURL = env.PRODUCTION_URL ?? baseURL;
+
 export const auth = betterAuth({
-  baseURL: env.VERCEL_URL,
+  baseURL,
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
-  trustedOrigins: [env.PRODUCTION_URL, env.VERCEL_URL],
+  trustedOrigins: [productionURL, baseURL],
   emailAndPassword: {
     enabled: true,
   },
@@ -17,13 +23,13 @@ export const auth = betterAuth({
     google: {
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
-      redirectURI: `${env.PRODUCTION_URL}/api/auth/callback/google`,
+      redirectURI: `${productionURL}/api/auth/callback/google`,
     },
   },
   plugins: [
     oAuthProxy({
-      productionURL: env.PRODUCTION_URL,
-      currentURL: env.VERCEL_URL,
+      productionURL,
+      currentURL: baseURL,
     }),
     admin(),
     mcp({

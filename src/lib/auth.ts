@@ -4,7 +4,10 @@ import { admin, mcp, organization } from "better-auth/plugins";
 import { db } from "~/db";
 import { env } from "~/env";
 
+const url = process.env.VERCEL_URL ?? "http://localhost:3000";
+
 export const auth = betterAuth({
+  baseURL: url,
   database: drizzleAdapter(db, {
     provider: "pg",
   }),

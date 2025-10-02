@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["neondatabase", "tabler"],
+  "cSpell.words": ["neondatabase", "orpc", "tabler"],
   "editor.codeActionsOnSave": {
     "source.fixAll.biome": "explicit",
     "source.organizeImports.biome": "explicit"
